@@ -59,7 +59,8 @@ func CheckIfPangram(alphabetName string, input io.Reader) Response {
 }
 
 func DefaultLatin(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
-	testString := ps.ByName("alphabet")
+	testString := ps.ByName("input")
+	log.Printf("Checking if `latin` alphabet is contained in `%s`\n", testString)
 
 	response := CheckIfPangram("latin", strings.NewReader(testString))
 
@@ -77,7 +78,8 @@ func SelectAlphabet(w http.ResponseWriter, r *http.Request, ps httprouter.Params
 	w.Header().Set("Content-Type", "application/json")
 
 	alphabet := ps.ByName("alphabet")
-	testString := ps.ByName("string")
+	testString := ps.ByName("input")
+	log.Printf("Checking if `%s` alphabet is contained in `%s`\n", alphabet, testString)
 
 	response := CheckIfPangram(alphabet, strings.NewReader(testString))
 	w.WriteHeader(response.Status)
@@ -129,9 +131,9 @@ func RequestViaJson(w http.ResponseWriter, r *http.Request, _ httprouter.Params)
 
 func main() {
 	router := httprouter.New()
-	router.GET("/:alphabet", DefaultLatin)
-	router.GET("/:alphabet/:string", SelectAlphabet)
-	router.POST("/", RequestViaJson)
+	router.GET("/api/v1/pangram/:input", DefaultLatin)
+	router.GET("/api/v1/pangram/custom/:alphabet/:input", SelectAlphabet)
+	router.POST("/api/v1/pangram", RequestViaJson)
 
 	log.Fatal(http.ListenAndServe(":8080", router))
 }
