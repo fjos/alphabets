@@ -32,7 +32,6 @@ Response:
 }
 ```
 
-#Alternative Alphabets
 GET /api/v1/pangram/egyptian/this sentence contains no characters that are egyptian
 
 Command Line: `curl "http://localhost:8080/api/v1/pangram/egyptian/this%20sentence%20contains%20no%20characters%20that%20are%20egyptian"`
@@ -55,7 +54,11 @@ Response:
 
 
 ### POST /api/v1/pangram
-Allows you to provide json formatted request to check if it is a pangram, also allowing you to check inputs without manually replacing spaces
+Allows you to provide json formatted request to check if input is a pangram
+Supports custom alphabets by setting alphabet.name = custom, and alphabet.contents = {alphabet}
+
+An alphabet's contents must contain only lowercase letters i.e. latin would be "abcdefghijklmnopqrstuvwxyz",
+
 #### Examples
 
 Latin alphabet post:
@@ -96,7 +99,7 @@ POST /api/v1/pangram
 curl -X POST -d "{\"alphabet\":{\"name\":\"custom\", \"contents\" : \"aeiou\"}, \"input\":\"wait I know this you're famous\"}" http://localhost:8080/api/v1/pangram
 ```
 
-
+Request:
 ```json
 {
 	"alphabet" : {
@@ -106,6 +109,21 @@ curl -X POST -d "{\"alphabet\":{\"name\":\"custom\", \"contents\" : \"aeiou\"}, 
 	"input" : "wait I know this you're famous"
 }
 
+```
+Response:
+```json
+{
+	"status" : 200,
+	"error" : "",
+	"data" :
+	{
+		"alphabet" : {
+			"name" : "custom",
+			"contents" : "aeiou"
+	},
+		"pangram" : true
+	}
+}
 ```
 
 ### GET /debug/vars
