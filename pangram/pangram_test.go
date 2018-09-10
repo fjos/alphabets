@@ -1,8 +1,8 @@
 package pangram
 
 import (
-	"log"
-	"os"
+	// "log"
+	// "os"
 	"strings"
 	"testing"
 )
@@ -24,25 +24,36 @@ var pangramTests = []struct {
 	{"\x00\x01abs", false},
 }
 
+var pangramCustomAlphabetTests = []struct {
+	input string //input
+	expected bool // output
+	alphabet string //al {phabet to test against
+}{
+	{"平仮名abcdefghijklmNOPQRSTUVWXYZ", true, "仮名"},
+	{"平仮abcdefghijklmNOPQRSTUVWXYZ", false, "仮名"},
+}
+
+
 func TestIsPangram(t *testing.T) {
 	for _, tt := range pangramTests {
 		handle := strings.NewReader(tt.input)
-		actual := IsPangram(handle, "abcdefghijklmnopqrstuvwxyz", 64)
+		actual, _ := IsPangram(handle, "abcdefghijklmnopqrstuvwxyz", 64)
+		if actual != tt.expected {
+			t.Errorf("IsPangram(%s): expected %t, actual %t", tt.input, tt.expected, actual)
+		}
+	}
+	for _, tt := range pangramCustomAlphabetTests {
+		handle := strings.NewReader(tt.input)
+		actual, _ := IsPangram(handle, tt.alphabet, 64)
 		if actual != tt.expected {
 			t.Errorf("IsPangram(%s): expected %t, actual %t", tt.input, tt.expected, actual)
 		}
 	}
 }
 
-// func TestIsPangramReadAll(t *testing.T) {
-// 	for _, tt := range pangramTests {
-// 		handle := strings.NewReader(tt.input)
-// 		actual := IsPangramReadAll(handle)
-// 		if actual != tt.expected {
-// 			t.Errorf("IsPangramReadAll(%s): expected %t, actual %t", tt.input, tt.expected, actual)
-// 		}
-// 	}
-}
+
+
+
 
 // func BenchmarkIsPangram(b *testing.B) {
 // 	for i := 0; i < b.N; i++ {

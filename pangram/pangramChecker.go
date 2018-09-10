@@ -48,7 +48,7 @@ func IsPangram(input io.Reader, alphabet string, readSize int) (bool, error) {
 	return false, nil
 }
 
-//remove runes from map on a per chunk basis
+//remove runes from map on a per chunk basis, delete does nothing when value doesn't exist
 func RemoveRunesFromMap(chunk string, alphabetMap map[rune]bool) {
 	lowerChunk := strings.ToLower(chunk)
 	for _, value := range lowerChunk {
