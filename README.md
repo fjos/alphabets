@@ -109,18 +109,10 @@ curl -X POST -d "{\"alphabet\":{\"name\":\"custom\", \"contents\" : \"aeiou\"}, 
 ```
 
 ### GET /debug/vars
--
+
 Uses the expvar package to export useful statistics about server responses, commonly requested alphabets, etc.
 
 ## Future improvements
-Alphabet type "custom" where you specify the characters that must exist e.g. to test for vowels
-```json
-{
-	"alphabet" : "custom",
-	"customAlphabet" : "aeiou",
-	"input" : "the quick brown fox jumps over the lazy dog"
-}
-```
 
 Implement testing for Response Generation, and move that code into it's own "model" package. Currently it presumes proper creation, but there is no test coverage.
 

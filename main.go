@@ -15,7 +15,6 @@ import (
 // exported variables for server request metrics
 var (
 	PangramRequests    = expvar.NewMap("requests")
-	AlphabetsRequested = expvar.NewMap("alphabets")
 )
 
 type Response struct {
@@ -40,7 +39,6 @@ type PangramRequest struct {
 
 func CheckIfPangram(alphabet pangram.Alphabet, input io.Reader) PangramResponse {
 	var response PangramResponse
-	AlphabetsRequested.Add(alphabet.Name, 1)
 
 	err := alphabet.SetAlphabetContents()
 	alphabetString := alphabet.Contents
